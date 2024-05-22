@@ -65,6 +65,7 @@ The program will use these four signals:
   There are several ways you can test the program:
   - You can test the program with specific parameters by running `./scheduler -test gen ...` where the ellipsis contain the parameters you would pass to scheduler (e.g., `./scheduler -test gen 3 2 3 2 3`). If you use this you must be careful to have the right number of arguments. If you have the wrong number of arguments the test defaults to pass (false positive).
   - You can also run the individual built-in tests by running `./scheduler -test <testname>` where `<testname>` is one of:
+    
     – `test_3_1_2_2_2`
     – `test_2_2_2_2`
     – `test_5_7_1_2_1_2_1`
