@@ -69,8 +69,11 @@ The program will use these four signals:
     – `test_3_1_2_2_2`
     
     – `test_2_2_2_2`
+    
     – `test_5_7_1_2_1_2_1`
+    
     – `test_4_1_1_2_3_4`
+    
     – `test_3_3_4_3_2`
 
   - Finally, you can run all the built-in tests by running `./scheduler -test -f0 rr`. This runs the 5 tests above.
