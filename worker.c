@@ -7,11 +7,6 @@
 #include "scheduler.h"
 
 
-/*******************************************************************************
- *
- * Implement these functions. 
- *
- ******************************************************************************/
 
 /* Handler for SIGTERM signal */
 void cancel_thread()
@@ -24,12 +19,12 @@ void cancel_thread()
 	pthread_exit(NULL);
 } 
 
-/* TODO: Handle the SIGUSR1 signal */
+/* Handle the SIGUSR1 signal */
 void suspend_thread()
 {   
 	printf("Thread %u: suspending.\n", (unsigned int)pthread_self());
 
-	/*add your code here to wait for a resume signal from the scheduler*/
+	/*wait for a resume signal from the scheduler*/
 	sigset_t signal_wait_set;
     sigemptyset (&signal_wait_set); // must call this or results are undefined
     sigaddset(&signal_wait_set, SIGUSR2); // let's wait for SIGUSR2
@@ -50,11 +45,6 @@ void suspend_thread()
 	printf("Thread %u: resuming.\n",(unsigned int) pthread_self());
 }
 
-/*******************************************************************************
- *
- * 
- *
- ******************************************************************************/
 /*
  * waits to gain access to the scheduler queue.
  */
@@ -102,14 +92,14 @@ void *start_worker(void *arg)
 	float calc = 0.8;
 	int j = 0;
 
-	/* TODO: Block SIGALRM and SIGUSR2. */
+	/* Block SIGALRM and SIGUSR2. */
 	 sigset_t signal_set_block;
 	 sigemptyset(&signal_set_block);
 	 sigaddset(&signal_set_block, SIGALRM);
 	 sigaddset(&signal_set_block, SIGUSR2);
 	 pthread_sigmask(SIG_BLOCK, &signal_set_block, NULL);
 
-	/* TODO: Unblock SIGUSR1 and SIGTERM. */
+	/* Unblock SIGUSR1 and SIGTERM. */
 	sigset_t signal_set_unblock;
 	sigemptyset(&signal_set_unblock);
     sigaddset(&signal_set_unblock, SIGUSR1);
