@@ -9,9 +9,7 @@
 #include "scheduler.h"
 #include "worker.h"
 
-/*
- * define the extern global variables here.
- */
+
 sem_t queue_sem;	/* semaphore for scheduler queue */
 thread_info_list sched_queue; /* list of current workers */
 
@@ -25,15 +23,6 @@ static int thread_count = 0;
 
 static void exit_error(int); /* helper function. */
 static void wait_for_queue();
-
-/*******************************************************************************
- *
- * Implement these functions.
- *
- ******************************************************************************/
-/*
- * This function intializes the queue semaphore and the queue itself.
- */
 
 /* 
  * Update the worker's current running time.
@@ -70,7 +59,7 @@ static void init_sched_queue(int queue_size)
 	sched_queue.head = sched_queue.tail = 0;
 	pthread_mutex_init(&sched_queue.lock, NULL);
 
-	/* TODO: initialize the timer */
+	/* initialize the timer */
 	struct sigevent sev; 
     sev.sigev_notify = SIGEV_SIGNAL; // notification performed via signal     
     sev.sigev_signo = SIGALRM; // the signal that should be sent 
@@ -131,13 +120,13 @@ static void suspend_worker(thread_info_t *info)
 	/*update the run time for the thread*/
 	update_run_time(info);
 
-	/* TODO: Update quanta remaining. */
+	/* Update quanta remaining. */
 	info->quanta--;
-	/* TODO: decide whether to cancel or suspend thread */
+	/* decide whether to cancel or suspend thread */
 	if(info->quanta > 0) {
 	  	/*
 	   	* Thread still running: suspend.
-	   	* TODO: Signal the worker thread that it should suspend.
+	   	* Signal the worker thread that it should suspend.
 	   	*/
 		pthread_kill(info->thrid, SIGUSR1);
 	  	/* Update Schedule queue */
@@ -152,7 +141,6 @@ static void suspend_worker(thread_info_t *info)
 /*
  * this is the scheduling algorithm
  * pick the next worker thread from the available list
- * you may need to add new information to the thread_info struct
  */
 static thread_info_t *next_worker()
 {
@@ -194,7 +182,6 @@ void timer_handler()
 
 /* 
  * Set up the signal handlers for SIGALRM, SIGUSR1, and SIGTERM.
- * TODO: Implement this function.
  */
 void setup_sig_handlers() {
 	struct sigaction sa;
@@ -217,11 +204,6 @@ void setup_sig_handlers() {
 
 }
 
-/*******************************************************************************
- *
- * 
- *
- ******************************************************************************/
 
 /*
  * waits until there are workers in the scheduling queue.
@@ -286,7 +268,7 @@ static void create_workers(int thread_count, int *quanta)
 		printf("Main: detaching worker thread %lu.\n", info->thrid);
 		pthread_detach(info->thrid);
 
-		/* TODO: initialize the time variables for each thread for performance evalution*/
+		/* initialize the time variables for each thread for performance evalution*/
 		struct timespec curr;
 		clock_gettime(CLOCK_REALTIME, &curr);
 		info->suspend_time = curr;
@@ -310,7 +292,7 @@ static void *scheduler_run(void *unused)
     value.it_interval.tv_sec = QUANTUM;
     value.it_interval.tv_nsec = 0;
 
-	/* TODO: start the timer */
+	/* start the timer */
 	timer_settime(timer, 0, &value, NULL);
 	/*keep the scheduler thread alive*/
 	while( !quit )
