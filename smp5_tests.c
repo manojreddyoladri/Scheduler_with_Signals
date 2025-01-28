@@ -1,4 +1,3 @@
-/*************** YOU SHOULD NOT MODIFY ANYTHING IN THIS FILE ***************/
 #define _GNU_SOURCE
 #include <stdio.h>
 #undef _GNU_SOURCE
@@ -194,7 +193,7 @@ int test_output(FILE *stream, int nw, int qs, int *q) {
 int general_test(int argc, const char **argv) {
   FILE *f;
   int nw, qs, *q;
-  // Justin Bradley fixed by moving args_to_nums call before run_test (duh)
+  // fixed by moving args_to_nums call before run_test (duh)
   args_to_nums(argc,argv,&nw,&qs,&q);
   run_test(argc,argv);
   f = fopen("smp5.out","r");
